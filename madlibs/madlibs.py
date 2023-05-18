@@ -8,3 +8,13 @@ adjective = input("Adjective: ")
 print(
     f"{exclamation}! he said {adverb} as he jumped into his convertible {noun} and drove off with his {adjective} wife"
 )
+
+"""
+    # Import the list in the python file of the game
+    # Choose one of the stories
+    # Iterate through all of the missing words, 
+        - declare a variable for them
+        - prompt the user for some input
+        - save it into that variable
+    # Insert new words and print out the story
+"""
