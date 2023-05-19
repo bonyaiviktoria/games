@@ -1,40 +1,29 @@
-import random
+import re
+from random import choice
 # Import the list in the python file of the game
 from madlibs_stories import stories
 
 def main():
+    # Choose randomly one of the stories, and pass into the finder function to get the list of the words
+    story = choice(stories)
+    words = magic_finder(story)
 
+    # Iterate through all of the words
+    for word in words:
+        #Get the word from user
+        new_word = input(word)
 
+        # Change the question is the story to the new word
+        story = story.replace(("{'" + word + "'}"), new_word)
 
+    # Print out the new story
+    print(story)
 
-
-
-
-
-
-
-if __name__ == "__main__":
-    main()
+def magic_finder(list):
+    # With regex findall method, create a list of strings
+    if questions := re.findall(r"\{\'([^\}]+)\'\}", list):
+        return(questions)
 
     
-# First declare the needed variables
-exclamation = input("Exclamation: ")
-adverb = input("Adverb: ")
-noun = input("Noun: ")
-adjective = input("Adjective: ")
-
-# This is from wikipedia :)
-print(
-    f"{exclamation}! he said {adverb} as he jumped into his convertible {noun} and drove off with his {adjective} wife"
-)
-
-"""
-    # Choose one of the stories
-    # Iterate through all of the words,
-        - If the word is between curly braces: 
-            - declare a variable for them
-            - prompt the user for some input
-            - add it to the text
-        - Else just add it simply to the text
-    # Insert new words and print out the story
-"""
+if __name__ == "__main__":
+    main()
