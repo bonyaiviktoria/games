@@ -7,4 +7,4 @@
 5. Iterate through the list with all of the missing words, 
     - prompt the user for some input, as it was given in the original story "{'Verb: '}"
     - change the story variable with the string.replace() method, so the users answer will take the place of the hint text
-5. Print out the modified story
+6. Print out the modified story
