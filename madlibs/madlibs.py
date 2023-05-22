@@ -11,7 +11,9 @@ def main():
     # Iterate through all of the words
     for word in words:
         #Get the word from user
-        magic_replace(get_word(word))
+        new_word = get_word(word)
+        # Change the question is the story to the new word
+        story = story.replace(("{'" + word + "'}"), new_word)
 
     # Print out the new story
     print(story)
@@ -23,20 +25,14 @@ def magic_finder(story):
 
 
 def get_word(word):
-    # Make sure that the user writes at least something 
+    # Make sure that the user gave input 
     while True:
-        try:
-            x = input(word)
-        except x == "":
+        x = input(word)
+        if x == "":
             print("Please choose a proper answer")
         else:
-            return x
-    
-
-def magic_replace(new_word):
-    # Change the question is the story to the new word
-    story = story.replace(("{'" + word + "'}"), new_word)
-
+            return x.lower()
+  
 
 if __name__ == "__main__":
     main()
