@@ -1,7 +1,7 @@
 from random import choice
 
 # Declare the list of the options
-options = [{"name": "rock", "sign":"&#9994"}, {"name": "paper", "sign": "&#9995"}, {"name": "scissors", "sign": "&#9996"}]
+options = [{"name": "rock", "sign":"✊"}, {"name": "paper", "sign": "✋"}, {"name": "scissors", "sign": "✌"}]
 
 def main():
     # Greet the user and prompt to choose
