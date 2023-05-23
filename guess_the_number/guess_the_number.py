@@ -74,7 +74,7 @@ def computer_guessing(x):
 
         # Prompt user for answer
         n = input(
-            f"My guess is {guess}. Is it too high, too low, or did I get it right? "
+            f"My guess is {guess}. Is it too high, too low, or did I get it right? (high/low/ok)"
         ).lower()
 
         # If the guess is too high, set the counter, and reset the new high value
@@ -87,6 +87,7 @@ def computer_guessing(x):
             low = guess + 1
         # If the guess is correct, return the data
         else:
+            counter += 1
             return f"Yaayyy! I have guessed the number you were thinking of in {counter} attempts, and it was {guess}."
 
     # If the while condition is no more active, something went wrong
