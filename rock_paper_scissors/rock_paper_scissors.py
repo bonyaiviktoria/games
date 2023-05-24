@@ -1,4 +1,5 @@
 from random import choice
+from sys import exit
 
 # Declare the list of the options
 options = [
@@ -14,6 +15,9 @@ def main():
         input("Welcome to the game! Make your choice! (rock/paper/scissors)  ")
     )
 
+    if not user:
+        exit("Your input is not a valid option! Try again.")
+
     # Choose randomly from the list
     computer = choice(options)
 
@@ -22,14 +26,9 @@ def main():
 
 
 def get_choice(user_input):
-    i = 0
     for option in options:
         if option["name"] == user_input.lower():
             return option
-        else:
-            i += 1
-            if i == len(options):
-                print("Your input is not a valid option! Try again.")
 
 
 def battle(user, computer):

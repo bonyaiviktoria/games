@@ -10,3 +10,7 @@ def test_default():
 def test_uppercase():    
     assert get_choice("PAPER") == {"name": "paper", "sign": "✋"}
     assert get_choice("ScISSors") == {"name": "scissors", "sign": "✌"}
+
+
+def test_not_valid():
+    assert get_choice("spoon") == ("Your input is not a valid option! Try again.")
