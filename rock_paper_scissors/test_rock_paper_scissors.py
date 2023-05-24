@@ -13,4 +13,4 @@ def test_uppercase():
 
 
 def test_not_valid():
-    assert get_choice("spoon") == ("Your input is not a valid option! Try again.")
+    assert get_choice("spoon") == None

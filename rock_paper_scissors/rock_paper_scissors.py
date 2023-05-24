@@ -12,9 +12,8 @@ options = [
 def main():
     # Greet the user and prompt to choose. Then transform it into a proper data for us
     user = get_choice(
-        input("Welcome to the game! Make your choice! (rock/paper/scissors)  ")
+        input("Welcome to the game! Make your choice (rock/paper/scissors): ")
     )
-
     if not user:
         exit("Your input is not a valid option! Try again.")
 
