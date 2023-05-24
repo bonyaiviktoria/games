@@ -5,7 +5,7 @@ options = [{"name": "rock", "sign":"✊"}, {"name": "paper", "sign": "✋"}, {"n
 
 def main():
     # Greet the user and prompt to choose. Then transform it into a proper data for us
-    user = get_choice(input("Welcome to the game! Make your choice! (rock/paper/scissors)").lower())
+    user = get_choice(input("Welcome to the game! Make your choice! (rock/paper/scissors)"))
             
     # Choose randomly from the list
     computer = choice(options)
@@ -24,7 +24,7 @@ def main():
 def get_choice(user_input):
     i = 0
     for option in options:
-        if option["name"] == user_input:
+        if option["name"] == user_input.lower():
             return option
         else:
             i += 1
