@@ -14,3 +14,4 @@ def test_uppercase():
 
 def test_not_valid():
     assert get_choice("spoon") == None
+    assert get_choice("papier") == None

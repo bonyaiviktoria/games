@@ -5,7 +5,7 @@ from sys import exit
 options = [
     {"name": "rock", "sign": "✊"},
     {"name": "paper", "sign": "✋"},
-    {"name": "scissors", "sign": "✌"},
+    {"name": "scissors", "sign": "✌"}
 ]
 
 
