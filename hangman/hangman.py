@@ -26,7 +26,7 @@ def main():
         guess = get_guess()
         # If the guessed char is in the word, take it into the right place in the word list. Otherwise add it to the wrong list
         if guess in word:
-            letters = update_letters(letters, guess, word)
+            letters, count = update_letters(letters, guess, word)
         else:
             wrong_letters.append(guess)
             level = level-1
@@ -64,10 +64,15 @@ def print_status(level, letters, wrong_letters):
     print("USED LETTERS: ", end="")
     print_out(wrong_letters)
 
-    
-#def update_letters(letters, guess, word):
 
-
+def update_letters(letters, guess, word):
+    i = 0
+    for w in word:
+        if w == guess:
+            letters[i] = guess
+            count += 1
+        i += 1
+    return letters, count
 
 
 def print_out(list):
