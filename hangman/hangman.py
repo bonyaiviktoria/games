@@ -13,8 +13,23 @@ def main():
     for _ in range(level):
         letters.append("_")
     
-    # The guessing game
-    guess = guessing_game(word, letters)
+    # Set counter, wrong_letters to zero
+    count = 0
+    wrong_letters = []
+
+    # While the known letters counter is less than the length of the word
+    while count < len(word):
+
+        # Print out the current status of the word
+        print_out(letters)
+        # Take an input, with the get_guess function
+        guess = get_guess()
+        # If the guessed char is in the word, take it into the right place in the word list. Otherwise add it to the wrong list
+        if guess in word:
+            letters = update_letters(letters, guess, word)
+        else:
+            wrong_letters.append(guess)
+
 
 
 def get_number(prompt):
@@ -38,21 +53,10 @@ def get_guess():
         # If the user provided a single character, return it to the game. Otherwise, prompt again
         if len(guess) == 1:
             if guess.isalpha():
-                return guess
+                return guess.upper()
+            
 
-
-def guessing_game(word, letters):
-
-    # Set counter to zero
-    count = 0
-
-    # While the known letters counter is less than the length of the word
-    while count < len(word):
-
-        # Print out the current status of the word
-        print_out(letters)
-        # Take an input, with the guessing function
-        guess = get_guess()
+def update_letters(letters, guess, word):
 
 
 
