@@ -6,15 +6,15 @@ def main():
     level = get_number("Hello! This is a hangman game! Please choose the level of difficulty between 3 and 15: ")
 
     # Choose a word randomly with randword library
-    word = rand_word.word(count=1, word_len=level)
+    word = rand_word.word(count=1, word_len=level).upper()
 
     # Make the words list
     letters = []
     for _ in range(level):
-        print("_ ", end="")
+        letters.append("_")
     
-    # Take a guess
-    guess = input("\n\nTake a guess: ")
+    # The guessing game
+    guess = guessing_game(word, letters)
 
 
 def get_number(prompt):
@@ -28,8 +28,34 @@ def get_number(prompt):
             if x > 2 and x < 16:
                 return x
 
+def get_guess():
 
-def get_guess(prompt):
+    while True:
+        # Prompt the user for a character
+        guess = input("\n Please take a guess: ").upper()
+
+
+
+def guessing_game(word, letters):
+
+    # Set counter to zero
+    count = 0
+
+    # While the known letters counter is less than the length of the word
+    while count < len(word):
+
+        # Print out the current status of the word
+        print_out(letters)
+        # Take an input, with the guessing function
+        guess = input("\nTake a guess: ")
+
+
+
+
+def print_out(list):
+    for l in list:
+        print(l, end=" ")
+    print()
     
 if __name__ == "__main__":
     main()
