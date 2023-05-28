@@ -21,7 +21,7 @@ def main():
     while count < len(word):
 
         # Print out the current status of the word
-        print_out(letters)
+        print_status(level, letters, wrong_letters)
         # Take an input, with the get_guess function
         guess = get_guess()
         # If the guessed char is in the word, take it into the right place in the word list. Otherwise add it to the wrong list
@@ -29,7 +29,7 @@ def main():
             letters = update_letters(letters, guess, word)
         else:
             wrong_letters.append(guess)
-
+            level = level-1
 
 
 def get_number(prompt):
@@ -56,7 +56,16 @@ def get_guess():
                 return guess.upper()
             
 
-def update_letters(letters, guess, word):
+def print_status(level, letters, wrong_letters):
+    print("REMAINING LIFE: ", end="")
+    print(level)
+    print("WORD: ", end="")
+    print_out(letters)
+    print("USED LETTERS: ", end="")
+    print_out(wrong_letters)
+
+    
+#def update_letters(letters, guess, word):
 
 
 
