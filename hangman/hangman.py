@@ -7,14 +7,14 @@ def main():
     level = get_number("Hello! This is a hangman game! Please choose the level of difficulty between 3 and 15: ")
 
     # Choose a word randomly with randword library
-    word = (rand_word.word(count=1, word_len=level)[0]).upper()
+    word = get_word(level)
 
     # Initialize the words list
     letters = []
     for _ in range(level):
         letters.append("_")
     
-    # Set counter, wrong_letters to zero
+    # Set counter, wrong_letters to zero, life to max
     count = 0
     wrong_letters = []
     life = level + 5
@@ -31,13 +31,22 @@ def main():
         # If the guessed char is in the word, take it into the right place in the word list. Otherwise add it to the wrong list
         if guess in word:
             letters, count = update_letters(letters, guess, word, count)
+        # If its not in the word, append it to the wrong letters list and decrease life
         else:
             wrong_letters.append(guess)
             life = life-1
 
     # If you break out from the while loop, you won!
     print("Congratulations! You won! 🫧 The word was {word}")
-1
+
+
+def get_word(level):
+    while True:
+        word = (rand_word.word(count=1, word_len=level))[0]
+        if word.isalpha():
+            return word.upper()
+        
+
 
 def get_number(prompt):
 
