@@ -6,9 +6,9 @@ def main():
     level = get_number("Hello! This is a hangman game! Please choose the level of difficulty between 3 and 15: ")
 
     # Choose a word randomly with randword library
-    word = rand_word.word(count=1, word_len=level)
+    word = (rand_word.word(count=1, word_len=level)[0]).upper()
 
-    # Make the words list
+    # Initialize the words list
     letters = []
     for _ in range(level):
         letters.append("_")
