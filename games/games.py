@@ -1,10 +1,10 @@
 # Import libraries
-import re
-from random
+import random, re
+from sys import exit
 
 def main():
     # Which game does the user want to play
-    game = input("Which game do you choose to play? (madlibs/guess the number/hangman)")
+    game = input("Which game do you choose to play? (madlibs/guess the number/rock, paper, scissors\hangman)")
 
     # Madlibs
     if game == "madlibs":
@@ -65,6 +65,9 @@ def main():
             print(computer_guessing(x))
 
 
+    # Rock, paper, scissors
+    elif game == "rock, paper, scissors":
+
     # Hangman
 
 
@@ -117,7 +120,53 @@ def user_guessing(high):
             )
 
 
+def computer_guessing(x):
+    # First I set the borders of the guessing game, and set the counter to 0
+    counter = 0
+    low = 0
+    high = x
 
+    # Prompt the user to guess a number between the given borders
+    input(
+        f"Please choose a number between {low} and {high}. I will try to guess it as quickly as possible! Are you ready? (yes, y)"
+    )
+
+    # THE GAME
+    while high > low:
+        # Make a guess
+        guess = random.randint(low, high)
+
+        # Prompt user for answer
+        n = input(
+            f"My guess is {guess}. Is it too high, too low, or did I get it right? (high/low/ok)"
+        ).lower()
+
+        # If the guess is too high, set the counter, and reset the new high value
+        if "high" in n:
+            counter += 1
+            high = guess - 1
+        # If the guess is too low, set the counter, and reset the new low value
+        elif "low" in n:
+            counter += 1
+            low = guess + 1
+        # If the guess is correct, return the data
+        else:
+            counter += 1
+            return f"Yaayyy! I have guessed the number you were thinking of in {counter} attempts, and it was {guess}."
+
+    # If the while condition is no more active, something went wrong
+    return "I'm sorry, but your responses were contradictory, so I couldn't guess the number correctly!"
+
+
+# This function is a great help to the other functions, it prompts the user for an input with the given text, and ensures that its an integer
+def get_number(prompt):
+    while True:
+        try:
+            x = int(input(prompt))
+        except ValueError:
+            print("x is not an integer")
+        else:
+            return x
 
 
 if __name__ == "__main__":
