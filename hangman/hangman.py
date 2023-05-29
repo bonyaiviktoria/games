@@ -1,10 +1,12 @@
 from randword import rand_word
 import sys
 
-def main():
 
+def main():
     # Greet the user and ask for difficulty level
-    level = get_number("Hello! This is a hangman game! Please choose the level of difficulty between 3 and 15: ")
+    level = get_number(
+        "Hello! This is a hangman game! Please choose the level of difficulty between 3 and 15: "
+    )
 
     # Choose a word randomly with randword library
     word = get_word(level)
@@ -13,7 +15,7 @@ def main():
     letters = []
     for _ in range(level):
         letters.append("_")
-    
+
     # Set counter, wrong_letters to zero, life to max
     count = 0
     wrong_letters = []
@@ -34,7 +36,7 @@ def main():
         # If its not in the word, append it to the wrong letters list and decrease life
         else:
             wrong_letters.append(guess)
-            life = life-1
+            life = life - 1
 
     # If you break out from the while loop, you won!
     print("Congratulations! You won! 🫧 The word was {word}")
@@ -45,11 +47,9 @@ def get_word(level):
         word = (rand_word.word(count=1, word_len=level))[0]
         if word.isalpha():
             return word.upper()
-        
 
 
 def get_number(prompt):
-
     while True:
         try:
             x = int(input(prompt))
@@ -61,7 +61,6 @@ def get_number(prompt):
 
 
 def get_guess():
-
     while True:
         # Prompt the user for a character
         guess = input("\n Please choose an alphabetical character to guess: ")
@@ -70,7 +69,7 @@ def get_guess():
         if len(guess) == 1:
             if guess.isalpha():
                 return guess.upper()
-            
+
 
 def print_status(level, letters, wrong_letters):
     print("REMAINING LIFE: ", end="")
@@ -95,6 +94,7 @@ def print_out(list):
     for l in list:
         print(l, end=" ")
     print()
-    
+
+
 if __name__ == "__main__":
     main()
