@@ -36,7 +36,7 @@ def main():
             life = life-1
 
     # If you break out from the while loop, you won!
-    print("Congratulations! You won! 🫧")
+    print("Congratulations! You won! 🫧 The word was {word}")
 1
 
 def get_number(prompt):
