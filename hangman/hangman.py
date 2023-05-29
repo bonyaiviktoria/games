@@ -16,12 +16,14 @@ def main():
     # Set counter, wrong_letters to zero
     count = 0
     wrong_letters = []
+    life = level + 5
 
     # While the known letters counter is less than the length of the word
     while count < len(word):
-
+        # If you lost all of your life, you lost
+        print("🩻")
         # Print out the current status of the word
-        print_status(level, letters, wrong_letters)
+        print_status(life, letters, wrong_letters)
         # Take an input, with the get_guess function
         guess = get_guess()
         # If the guessed char is in the word, take it into the right place in the word list. Otherwise add it to the wrong list
@@ -29,7 +31,10 @@ def main():
             letters, count = update_letters(letters, guess, word, count)
         else:
             wrong_letters.append(guess)
-            level = level-1
+            life = life-1
+
+    # If you break out from the while loop, you won!
+    print("Congratulations! You won! 🫧")
 1
 
 def get_number(prompt):
