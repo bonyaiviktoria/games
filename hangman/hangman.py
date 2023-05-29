@@ -1,4 +1,5 @@
 from randword import rand_word
+import sys
 
 def main():
 
@@ -21,7 +22,8 @@ def main():
     # While the known letters counter is less than the length of the word
     while count < len(word):
         # If you lost all of your life, you lost
-        print("🩻")
+        if life < 1:
+            sys.exit(f"Sorry, you lost🩻 The word was {word}")
         # Print out the current status of the word
         print_status(life, letters, wrong_letters)
         # Take an input, with the get_guess function
