@@ -8,13 +8,21 @@ from randword import rand_word
 OPTIONS = [
     {"name": "rock", "sign": "✊"},
     {"name": "paper", "sign": "✋"},
-    {"name": "scissors", "sign": "✌"}
+    {"name": "scissors", "sign": "✌"},
 ]
 
 
 def main():
     # Which game does the user want to play
-    game = input("Which game do you choose to play? (madlibs/guess the number/rock paper scissors\hangman)").lower()
+    while (
+        game != "madlibs"
+        or game != "guess the number"
+        or game != "rock paper scissors"
+        or game != "hangman"
+    ):
+        game = input(
+            "Which game do you choose to play? (madlibs/guess the number/rock paper scissors/hangman)"
+        ).lower()
 
     """
     +-+-+-+-+-+-+-+
@@ -22,7 +30,6 @@ def main():
     +-+-+-+-+-+-+-+
     """
     if game == "madlibs":
-
         # Create a python file with a list of the stories. I have to search these around the web
         stories = [
             (
@@ -47,7 +54,7 @@ def main():
 
         # Iterate through all of the words
         for word in words:
-            #Get the word from user
+            # Get the word from user
             new_word = get_word(word)
             # Change the question is the story to the new word
             story = story.replace(("{'" + word + "'}"), new_word)
@@ -56,7 +63,6 @@ def main():
         print(story)
 
     elif game == "guess the number":
-
         """
         +-+-+-+-+-+ +-+-+-+ +-+-+-+-+-+-+
         |G|U|E|S|S| |T|H|E| |N|U|M|B|E|R|
@@ -83,13 +89,11 @@ def main():
         elif game == "computer":
             print(computer_guessing(x))
 
-
     elif game == "rock paper scissors":
-
         """
         +-+-+-+-+ +-+-+-+-+-+ +-+-+-+-+-+-+-+-+
         |R|O|C|K| |P|A|P|E|R| |S|C|I|S|S|O|R|S|
-        +-+-+-+-+ +-+-+-+-+-+ +-+-+-+-+-+-+-+-+    
+        +-+-+-+-+ +-+-+-+-+-+ +-+-+-+-+-+-+-+-+
         """
 
         # Greet the user and prompt to choose. Then transform it into a proper data for us
@@ -105,9 +109,7 @@ def main():
         # Print out the battle!
         print(user["sign"], " VS ", computer["sign"], "\n", battle(user, computer))
 
-
     elif game == "hangman":
-        
         """
         +-+-+-+-+-+-+-+
         |H|A|N|G|M|A|N|
@@ -115,7 +117,9 @@ def main():
         """
         # Greet the user and ask for difficulty level
         level = get_number(
-            "Hello! This is a hangman game! Please choose the level of difficulty between 3 and 15: ", min=3, max=15
+            "Hello! This is a hangman game! Please choose the level of difficulty between 3 and 15: ",
+            min=3,
+            max=15,
         )
 
         # Choose a word randomly with randword library
@@ -163,7 +167,7 @@ def battle(user, computer):
         return "It's a tie! 🌸"
     else:
         return "Sorry, I won this time ✨ Another try?"
-    
+
 
 def computer_guessing(x):
     # First I set the borders of the guessing game, and set the counter to 0
@@ -174,7 +178,7 @@ def computer_guessing(x):
     # Prompt the user to guess a number between the given borders
     input(
         f"Please choose a number between {low} and {high}. I will try to guess it as quickly as possible! Are you ready? (yes, y)"
-    )   
+    )
 
     # THE GAME
     while high > low:
@@ -219,12 +223,12 @@ def get_guess(letters, wrong_letters):
             if guess.isalpha():
                 guess = guess.upper()
                 if (guess in letters) or (guess in wrong_letters):
-                    print("You have already tried this letter!") 
+                    print("You have already tried this letter!")
                 else:
                     return guess
 
 
-def get_number(prompt, min = 0, max = 1000000):
+def get_number(prompt, min=0, max=1000000):
     # This function is a great help to the other functions, it prompts the user for an input with the given text, and ensures that its an integer
     while True:
         try:
@@ -241,22 +245,22 @@ def get_random_word(level):
         word = (rand_word.word(count=1, word_len=level))[0]
         if word.isalpha():
             return word.upper()
-        
+
 
 def get_word(word):
-    # Make sure that the user gave input 
+    # Make sure that the user gave input
     while True:
         x = input(word)
         if x == "":
             print("Please choose a proper answer")
         else:
             return x.lower()
-       
+
 
 def magic_finder(story):
     # With regex findall method, create a list of strings
     if questions := re.findall(r"\{\'([^\}]+)\'\}", story):
-        return(questions)
+        return questions
 
 
 def print_out(list):
@@ -283,7 +287,7 @@ def update_letters(letters, guess, word, count):
         i += 1
     return letters, count
 
-            
+
 def user_guessing(high):
     # First I set the borders of the guessing game, and set the counter to 0
     counter = 0
