@@ -2,6 +2,15 @@
 import random, re
 from sys import exit
 
+# Declare global variables
+# Declare the list of the options is rock, paper, scissors
+OPTIONS = [
+    {"name": "rock", "sign": "✊"},
+    {"name": "paper", "sign": "✋"},
+    {"name": "scissors", "sign": "✌"}
+]
+
+
 def main():
     # Which game does the user want to play
     game = input("Which game do you choose to play? (madlibs/guess the number/rock, paper, scissors\hangman)")
@@ -68,9 +77,41 @@ def main():
     # Rock, paper, scissors
     elif game == "rock, paper, scissors":
 
+        # Greet the user and prompt to choose. Then transform it into a proper data for us
+        user = get_choice(
+            input("Welcome to the game! Make your choice (rock/paper/scissors): ")
+        )
+        if not user:
+            exit("Your input is not a valid option! Try again.")
+
+        # Choose randomly from the list
+        computer = random.choice(OPTIONS)
+
+        # Print out the battle!
+        print(user["sign"], " VS ", computer["sign"], "\n", battle(user, computer))
+
+
     # Hangman
 
+def get_choice(user_input):
+    for option in OPTIONS:
+        if option["name"] == user_input.lower():
+            return option
+        
 
+def battle(user, computer):
+    if (
+        (user["name"] == "rock" and computer["name"] == "scissors")
+        or (user["name"] == "paper" and computer["name"] == "rock")
+        or (user["name"] == "scissors" and computer["name"] == "paper")
+    ):
+        return "Congratulations! 🍾 You are the winner!"
+    elif user["name"] == computer["name"]:
+        return "It's a tie! 🌸"
+    else:
+        return "Sorry, I won this time ✨ Another try?"
+    
+    
 def magic_finder(story):
     # With regex findall method, create a list of strings
     if questions := re.findall(r"\{\'([^\}]+)\'\}", story):
