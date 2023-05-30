@@ -1,6 +1,7 @@
 # Import libraries
-import random, re
-from sys import exit
+import random, re, sys
+from randword import rand_word
+
 
 # Declare global variables
 # Declare the list of the options is rock, paper, scissors
@@ -13,9 +14,13 @@ OPTIONS = [
 
 def main():
     # Which game does the user want to play
-    game = input("Which game do you choose to play? (madlibs/guess the number/rock, paper, scissors\hangman)")
+    game = input("Which game do you choose to play? (madlibs/guess the number/rock paper scissors\hangman)").lower()
 
-    # Madlibs
+    """
+    +-+-+-+-+-+-+-+
+    |M|A|D|L|I|B|S|
+    +-+-+-+-+-+-+-+
+    """
     if game == "madlibs":
 
         # Create a python file with a list of the stories. I have to search these around the web
@@ -50,8 +55,13 @@ def main():
         # Print out the new story
         print(story)
 
-    # Guess the number
-    elif game == "Guess the number":
+    elif game == "guess the number":
+
+        """
+        +-+-+-+-+-+ +-+-+-+ +-+-+-+-+-+-+
+        |G|U|E|S|S| |T|H|E| |N|U|M|B|E|R|
+        +-+-+-+-+-+ +-+-+-+ +-+-+-+-+-+-+
+        """
 
         # The user decides which game to play: Who should guessing?
         game = input("Who should guessing (user/computer)? ").lower()
@@ -74,15 +84,20 @@ def main():
             print(computer_guessing(x))
 
 
-    # Rock, paper, scissors
-    elif game == "rock, paper, scissors":
+    elif game == "rock paper scissors":
+
+        """
+        +-+-+-+-+ +-+-+-+-+-+ +-+-+-+-+-+-+-+-+
+        |R|O|C|K| |P|A|P|E|R| |S|C|I|S|S|O|R|S|
+        +-+-+-+-+ +-+-+-+-+-+ +-+-+-+-+-+-+-+-+    
+        """
 
         # Greet the user and prompt to choose. Then transform it into a proper data for us
         user = get_choice(
             input("Welcome to the game! Make your choice (rock/paper/scissors): ")
         )
         if not user:
-            exit("Your input is not a valid option! Try again.")
+            sys.exit("Your input is not a valid option! Try again.")
 
         # Choose randomly from the list
         computer = random.choice(OPTIONS)
@@ -91,13 +106,51 @@ def main():
         print(user["sign"], " VS ", computer["sign"], "\n", battle(user, computer))
 
 
-    # Hangman
-
-def get_choice(user_input):
-    for option in OPTIONS:
-        if option["name"] == user_input.lower():
-            return option
+    elif game == "hangman":
         
+        """
+        +-+-+-+-+-+-+-+
+        |H|A|N|G|M|A|N|
+        +-+-+-+-+-+-+-+
+        """
+        # Greet the user and ask for difficulty level
+        level = get_number(
+            "Hello! This is a hangman game! Please choose the level of difficulty between 3 and 15: ", min=3, max=15
+        )
+
+        # Choose a word randomly with randword library
+        word = get_random_word(level)
+
+        # Initialize the words list
+        letters = []
+        for _ in range(level):
+            letters.append("_")
+
+        # Set counter, wrong_letters to zero, life to max
+        count = 0
+        wrong_letters = []
+        life = level + 5
+
+        # While the known letters counter is less than the length of the word
+        while count < len(word):
+            # If you lost all of your life, you lost
+            if life < 1:
+                sys.exit(f"Sorry, you lost🩻 The word was {word}")
+            # Print out the current status of the word
+            print_status(life, letters, wrong_letters)
+            # Take an input, with the get_guess function
+            guess = get_guess(letters, wrong_letters)
+            # If the guessed char is in the word, take it into the right place in the word list. Otherwise add it to the wrong list
+            if guess in word:
+                letters, count = update_letters(letters, guess, word, count)
+            # If its not in the word, append it to the wrong letters list and decrease life
+            else:
+                wrong_letters.append(guess)
+                life = life - 1
+
+        # If you break out from the while loop, you won!
+        print(f"Congratulations! You won! 🫧 The word was {word}")
+
 
 def battle(user, computer):
     if (
@@ -111,12 +164,84 @@ def battle(user, computer):
     else:
         return "Sorry, I won this time ✨ Another try?"
     
-    
-def magic_finder(story):
-    # With regex findall method, create a list of strings
-    if questions := re.findall(r"\{\'([^\}]+)\'\}", story):
-        return(questions)
-    
+
+def computer_guessing(x):
+    # First I set the borders of the guessing game, and set the counter to 0
+    counter = 0
+    low = 0
+    high = x
+
+    # Prompt the user to guess a number between the given borders
+    input(
+        f"Please choose a number between {low} and {high}. I will try to guess it as quickly as possible! Are you ready? (yes, y)"
+    )   
+
+    # THE GAME
+    while high > low:
+        # Make a guess
+        guess = random.randint(low, high)
+
+        # Prompt user for answer
+        n = input(
+            f"My guess is {guess}. Is it too high, too low, or did I get it right? (high/low/ok)"
+        ).lower()
+
+        # If the guess is too high, set the counter, and reset the new high value
+        if "high" in n:
+            counter += 1
+            high = guess - 1
+        # If the guess is too low, set the counter, and reset the new low value
+        elif "low" in n:
+            counter += 1
+            low = guess + 1
+        # If the guess is correct, return the data
+        else:
+            counter += 1
+            return f"Yaayyy! I have guessed the number you were thinking of in {counter} attempts, and it was {guess}."
+
+    # If the while condition is no more active, something went wrong
+    return "I'm sorry, but your responses were contradictory, so I couldn't guess the number correctly!"
+
+
+def get_choice(user_input):
+    for option in OPTIONS:
+        if option["name"] == user_input.lower():
+            return option
+
+
+def get_guess(letters, wrong_letters):
+    while True:
+        # Prompt the user for a character
+        guess = input("\n Please choose an alphabetical character to guess: ")
+
+        # If the user provided a single character, that havent been used yet, return it to the game. Otherwise, prompt again
+        if len(guess) == 1:
+            if guess.isalpha():
+                guess = guess.upper()
+                if (guess in letters) or (guess in wrong_letters):
+                    print("You have already tried this letter!") 
+                else:
+                    return guess
+
+
+def get_number(prompt, min = 0, max = 1000000):
+    # This function is a great help to the other functions, it prompts the user for an input with the given text, and ensures that its an integer
+    while True:
+        try:
+            x = int(input(prompt))
+        except ValueError:
+            print("Please enter a number!")
+        else:
+            if x >= min and x <= max:
+                return x
+
+
+def get_random_word(level):
+    while True:
+        word = (rand_word.word(count=1, word_len=level))[0]
+        if word.isalpha():
+            return word.upper()
+        
 
 def get_word(word):
     # Make sure that the user gave input 
@@ -126,8 +251,39 @@ def get_word(word):
             print("Please choose a proper answer")
         else:
             return x.lower()
+       
+
+def magic_finder(story):
+    # With regex findall method, create a list of strings
+    if questions := re.findall(r"\{\'([^\}]+)\'\}", story):
+        return(questions)
 
 
+def print_out(list):
+    for l in list:
+        print(l, end=" ")
+    print()
+
+
+def print_status(level, letters, wrong_letters):
+    print("REMAINING LIFE: ", end="")
+    print(level)
+    print("WORD: ", end="")
+    print_out(letters)
+    print("USED LETTERS: ", end="")
+    print_out(wrong_letters)
+
+
+def update_letters(letters, guess, word, count):
+    i = 0
+    for w in word:
+        if w == guess:
+            letters[i] = guess
+            count += 1
+        i += 1
+    return letters, count
+
+            
 def user_guessing(high):
     # First I set the borders of the guessing game, and set the counter to 0
     counter = 0
@@ -159,55 +315,6 @@ def user_guessing(high):
             print(
                 f"This guess is not valid. Please choose a number between 0 and {high}."
             )
-
-
-def computer_guessing(x):
-    # First I set the borders of the guessing game, and set the counter to 0
-    counter = 0
-    low = 0
-    high = x
-
-    # Prompt the user to guess a number between the given borders
-    input(
-        f"Please choose a number between {low} and {high}. I will try to guess it as quickly as possible! Are you ready? (yes, y)"
-    )
-
-    # THE GAME
-    while high > low:
-        # Make a guess
-        guess = random.randint(low, high)
-
-        # Prompt user for answer
-        n = input(
-            f"My guess is {guess}. Is it too high, too low, or did I get it right? (high/low/ok)"
-        ).lower()
-
-        # If the guess is too high, set the counter, and reset the new high value
-        if "high" in n:
-            counter += 1
-            high = guess - 1
-        # If the guess is too low, set the counter, and reset the new low value
-        elif "low" in n:
-            counter += 1
-            low = guess + 1
-        # If the guess is correct, return the data
-        else:
-            counter += 1
-            return f"Yaayyy! I have guessed the number you were thinking of in {counter} attempts, and it was {guess}."
-
-    # If the while condition is no more active, something went wrong
-    return "I'm sorry, but your responses were contradictory, so I couldn't guess the number correctly!"
-
-
-# This function is a great help to the other functions, it prompts the user for an input with the given text, and ensures that its an integer
-def get_number(prompt):
-    while True:
-        try:
-            x = int(input(prompt))
-        except ValueError:
-            print("x is not an integer")
-        else:
-            return x
 
 
 if __name__ == "__main__":
